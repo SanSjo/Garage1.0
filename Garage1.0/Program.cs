@@ -12,20 +12,7 @@ namespace Garage1._0
             //garage.Add(bil);
             
             ConsoleUI ui = new ConsoleUI();
-            var listGarage = "Hur många bilar finns i garaget?";
-            ui.Print(listGarage);
-
-            int capacity = int.Parse(ui.GetInput());
-
-            string answer = $"Det finns {capacity} fordon i garaget";
-            ui.Print(answer);
-
-
-            GarageManager manager = new GarageManager(capacity);
-
-            manager.Start();
-
-            
+            ui.CreateNewGarage();
 
 
 

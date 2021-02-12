@@ -11,20 +11,42 @@ namespace Garage1._0
         //List<Vehicle> listVehicles = new List<Vehicle>(3);
         readonly ConsoleUI ui = new ConsoleUI();
         public Garage<Vehicle> filterGarage;
+
+        
+
         int garageCapacity = 0;
+        public int count = 0;
         public GarageHandler(int capacity)
         {
 
             filterGarage = new Garage<Vehicle>(capacity);
             garageCapacity = capacity;
-        }
+            SeedData(filterGarage, capacity);
+            count = filterGarage.CountVehicles();
+        }   
 
-        public Garage<Vehicle> ListAllVehicles()
+        //public Garage<Vehicle> ListAllVehicles()
+        //{
+        //    return garage;
+        //}
+
+        public void SeedData(Garage<Vehicle> filterGarage, int capacity)
         {
-            return filterGarage;
+
+            if(capacity < 3)
+            {
+                ui.Print(" ");
+            }
+            else
+            {
+                filterGarage.vehicles[0] = new Airplane(nrOfEngines: 2, "ABC123", "white", nrOfWheels: 2);
+                filterGarage.vehicles[1] = new Car("Bensin", "def123", "white", nrOfWheels: 4);
+                filterGarage.vehicles[2] = new Bus(nrOfSeats: 5, "ghd123", "white", nrOfWheels: 4);
+                count = filterGarage.CountVehicles();
+                
+            }
+            
         }
-
-
 
         public void AddAirplane()
         {
