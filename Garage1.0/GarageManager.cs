@@ -6,69 +6,55 @@ using System.Linq;
 namespace Garage1._0
 {
 
-    internal class GarageManager
+    public class GarageManager
     {
-        ConsoleUI ui = new ConsoleUI();
+        private IUI ui = new ConsoleUI();
 
-        public int count = 0;
+        public int Count = 0;
 
         GarageHandler garageHandler;
+
+
         public int Capacity { get; set; }
+
         public GarageManager(int capacity)
         {
+
             garageHandler = new GarageHandler(capacity);
             Capacity = capacity;
+            Count = garageHandler.filterGarage.CountVehicles();
+            SeedData(garageHandler.filterGarage, capacity);
+
         }
 
-        internal void Start()
+        public void SeedData(Garage<Vehicle> filterGarage, int capacity)
         {
-            do
+
+            if (capacity <= 3)
             {
-                string menuMessage = "Välj vad du vill göra i garaget genom att välja menyval 1, 2, 3, 4 eller 0 för att avsluta"
-                    + "\n1. Lägg till ett fordon"
-                    + "\n2. Ta bort ett fordon"
-                    + "\n3. Hitta ett fordon med registreringsnummer"
-                    + "\n4. Sök efter fordon"
-                    + "\n5. Skriv ut alla fordon i garaget"
-                    + "\n0. Avsluta programmet";
+                ui.Print($"Now there are {capacity} parkings");
+            }
+            else
+            {
+                //filterGarage.Add(new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2));
+                //filterGarage.Add(new Car("Bensin", "def123", "white", nrOfWheels: 4));
+                //filterGarage.Add(new Bus(nrOfSeats: 5, "ghd123", "white", nrOfWheels: 4));
+                filterGarage.Vehicles[1] = new Car("Bensin", "def123", "white", nrOfWheels: 4);
+                filterGarage.Vehicles[2] = new Bus(nrOfSeats: 5, "ghd123", "white", nrOfWheels: 4);
+                filterGarage.Vehicles[3] = new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2);
+                //count = filterGarage.CountVehicles();
 
-                ui.Print(menuMessage);
-                string nav = ui.GetInput();
-
-                switch (nav)
-                {
-                    case "1":
-                        AddVehicleByOption();
-                        //AddAirplane();
-                        break;
-                    case "2":
-                        RemoveVehicle();
-                        break;
-                    case "3":
-                        SearchByRegNumber();
-                        break;
-                    case "4":
-                        SearchForVehicle();
-                        break;
-                    case "5":
-                        ListParkedVehicles();
-                        //garageHandler.filterGarage.GetEnumerator();
-                        break;
-                    case "0":
-                        ui.ExitGarage();
-                        break;
-                    default:
-                        ui.Print("Wrong inout! You must enter 1, 2, 3, 4, 5 or 0");
-                        break;
-                }
-
-            } while (true);
+            }
 
         }
 
-        private void SearchForVehicle()
+        
+
+
+
+        public void SearchForVehicle()
         {
-            var vehiclesList = garageHandler.filterGarage.vehicles;
+            var vehiclesList = garageHandler.filterGarage.Vehicles; ;
             string inputType = "";
             string inputColor = "";
             int inputWheels = -1;
@@ -116,7 +102,7 @@ namespace Garage1._0
                         if (continueInput == "2") searchDone = false;
                         break;
                     default:
-                        ui.Print("Wrong input! You must enter 1, 2 or 3.");
+                        ui.WrongInput("Wrong input! You must enter 1, 2 or 3.");
                         break;
 
                 }
@@ -131,19 +117,15 @@ namespace Garage1._0
             }
             else
             {
-                var filterByProperties = vehiclesList.Where(v => v?.Color == inputColor || v?.NrOfWheels == inputWheels || v?.GetType().Name == inputType);
+                var filterByProperties = vehiclesList.Where(v => v?.Color.ToLower().ToUpper() == inputColor.ToLower().ToUpper() || v?.NrOfWheels == inputWheels || v?.GetType().Name.ToUpper().ToLower() == inputType.ToUpper().ToLower());
 
 
                 foreach (var item in filterByProperties)
                 {
-                    if (CheckForNull(vehiclesList))
-                    {
-                        ui.Print("No items found");
-                    }
-                    else
-                    {
-                        ui.Print($"We found {item.GetType().Name} with color {item.Color} and {item.NrOfWheels} wheels");
-                    }
+
+                    ui.Print($"We found {item.GetType().Name} with color {item.Color} and {item.NrOfWheels} wheels");
+
+
                 }
             }
 
@@ -166,208 +148,133 @@ namespace Garage1._0
             return true;
         }
 
-        private void SearchByRegNumber()
+        public void SearchByRegNumber()
         {
-            var vehicleList = garageHandler.filterGarage.vehicles;
+            var vehicleList = garageHandler.filterGarage.Vehicles;
 
             ui.Print("Search registration number:");
             string regNumberInput = ui.GetInput();
 
             for (int i = 0; i < vehicleList.Length; i++)
             {
-                if (vehicleList == null)
+                if (vehicleList[i] == null || vehicleList[i].RegNumber == regNumberInput)
                 {
-                    ui.Print("No match found");
+                    ui.Print("Registration number not found");
                 }
-                else
+               
+                else 
                 {
-                    if (Capacity > 3)
-                    {
-                        ui.Print("No match found");
-                    }
-                    else
-                    {
 
-                        if (vehicleList[i].RegNumber.ToLower() == regNumberInput.ToLower() || vehicleList[i].RegNumber.ToUpper() == regNumberInput.ToUpper())
-                        {
-                            ui.Print($"We found {vehicleList[i].RegNumber} that is a {vehicleList[i].GetType().Name} with color of {vehicleList[i].Color}");
-                        }
+                    if (vehicleList[i]?.RegNumber.ToLower() == regNumberInput.ToLower() || vehicleList[i].RegNumber?.ToUpper() == regNumberInput.ToUpper())
+                    {
+                        ui.Print($"We found {vehicleList[i].RegNumber} that is a {vehicleList[i].GetType().Name} with color of {vehicleList[i].Color}");
                     }
+                    //}
                 }
             }
         }
 
         public void RemoveVehicle()
         {
-            var deleteVehicle = garageHandler.filterGarage.vehicles;
-            //Garage<Vehicle> list = new Garage<Vehicle>(Capacity);
-
-            //List<Vehicle[]> array = new List<Vehicle[]>(Capacity);
-            //int Reg = int.Parse(ui.GetInput());
-            //array.RemoveAt(Reg);
-
-            //int diff = 0;
-            //int currentValue = 0;
-
-            //for (int i = 0; i < list.Length; i++)
-            //{
-            //    _ = Reg is Vehicle[];
-            //    if (list[i] == null && list[i] == _)
-            //    {
-            //        diff += 1;
-            //    }
-            //}
-            //Vehicle[] newArray = new Vehicle[list.Length - diff];
-            //for (int i = 0; i < list.Length; i++)
-            //{
-            //    if(list.Length != Reg)
-            //    {
-            //        newArray[currentValue] = list[i];
-            //        currentValue += 1;
-            //    }
-            //}
-            //ui.Print($"This is {newArray}");
-            //Vehicle[] newArray = new Vehicle[list.Length - 1];
-            //if (index > 0)
-            //{
-            //    Array.Copy(list, 0, newArray, 0, index);
-            //}
-            //if (index < list.Length - 1)
-            //{
-            //    Array.Copy(list, index + 1, newArray, index, list.Length - index - 1);
-            //}
-
-            //return newArray
-            
+            var deleteVehicle = garageHandler.filterGarage.Vehicles;
 
             int indexInt = int.Parse(ui.GetInput());
-            deleteVehicle = deleteVehicle.Where((source, index) => index != indexInt).ToArray();
-            var deletedItem = deleteVehicle[indexInt].GetType().Name;
-            ui.Print(deletedItem);
-            for (int i = 0; i < deleteVehicle.Length; i++)
+
+            if (Capacity < 3)
             {
-
-                ui.Print($"Left in Garage is {deleteVehicle[i]?.GetType().Name : 'empty spot'}");
-
-            }
-
-
-        }
-
-        //TODO Hur löser man detta?
-        private void RemoveVehicleItem()
-        {
-
-            do
-            {
-                var list = garageHandler.filterGarage.vehicles;
-                int inputIndex = int.Parse(ui.GetInput());
-
-                //list.RemoveVehicle(inputIndex);
-                ui.Print($"newlist {list}");
-            } while (true);
-
-
-
-
-            //var remove = new List<Vehicle>(Capacity);
-
-            //string inputReg = ui.GetInput();
-
-
-            //foreach (var item in remove)
-            //{
-
-            //}
-            //remove.RemoveAt(inputIndex);
-            //remove.RemoveVehicle(inputIndex);
-            //veLit.RemoveAt(inputReg);
-
-            //for (int i = 0; i < veLit.Count; i++)
-            //{
-
-            //    if (veLit[i].RegNumber == inputReg)
-            //    {
-            //        veLit.Remove(veLit[i]);
-
-            //    }
-            //}
-
-            //Console.WriteLine(list);
-            ////list = list.Where 
-            //bool enterCountVehicles = true;
-
-            ////int indexToRemove = inputIndex;
-            //int count = CountVehicles();
-            //if (count <= indexToRemove)
-            //{
-            //    list[indexToRemove - 1] = null;
-            //    enterCountVehicles = false;
-            //}
-            //if (list.Length < 1)
-            //{
-            //    ui.Print("Garage is already empty");
-
-            //}
-
-            //return enterCountVehicles;
-        }
-
-
-
-        public void AddVehicleByOption()
-        {
-            var list = garageHandler.filterGarage.vehicles;
-            if (list.Length <= 0)
-            {
-                ui.Print("Garage is empty");
+                ui.Print("Ni item flund");
             }
             else
             {
-                ui.Print("Välj vilket fordon du vill lägga till? "
-                    + "\n1. Airplane "
-                    + "\n2. MotorCycle"
-                    + "\n3. Car"
-                    + "\n4. Bus"
-                    + "\n5. Boat");
+                var deletedItemType = deleteVehicle[indexInt].GetType().Name;
+                var deletedItemColor = deleteVehicle[indexInt].Color;
+                deleteVehicle = deleteVehicle.Where((source, index) => index != indexInt).ToArray();
 
-                string option = ui.GetInput();
-
-                switch (option)
+                ui.Print($"You deleted a {deletedItemColor} {deletedItemType}");
+                for (int i = 0; i < deleteVehicle.Length; i++)
                 {
-                    case "1":
-                        garageHandler.AddAirplane();
-                        break;
-                    case "2":
-                        garageHandler.AddMotorcycle();
-                        break;
-                    case "3":
-                        garageHandler.AddCar();
-                        break;
-                    case "4":
-                        garageHandler.AddBus();
-                        break;
-                    case "5":
-                        garageHandler.AddBoat();
-                        break;
-
+                    ui.Print($"Left in Garage is {deleteVehicle[i]?.GetType().Name: 'empty spot'}");
                 }
             }
+
         }
 
+        public void AddVehicleByOption()
+        {
+            var list = garageHandler.filterGarage.Vehicles;
+
+            ui.Print("Välj vilket fordon du vill lägga till? "
+                + "\n1. Airplane "
+                + "\n2. MotorCycle"
+                + "\n3. Car"
+                + "\n4. Bus"
+                + "\n5. Boat");
+
+            string option = ui.GetInput();
+            if(Capacity < list.Length)
+            {
+                ui.Print("Garage is now full");
+            }
+            else { 
+            switch (option)
+            {
+                case "1":
+                    AddAirplane();
+                    ui.Print(" ");
+                    ui.Print("Airplane is parked");
+                    ui.Print(" ");
+                    break;
+                case "2":
+                    AddMotorcycle();
+                    ui.Print(" ");
+                    ui.Print("Motorcycle is parked");
+                    ui.Print(" ");
+                    break;
+                case "3":
+                    AddCar();
+                    ui.Print(" ");
+                    ui.Print("Car is parked");
+                    ui.Print(" ");
+                    break;
+                case "4":
+                    AddBus();
+                    ui.Print(" ");
+                    ui.Print("Bus is parked");
+                    ui.Print(" ");
+                    break;
+                case "5":
+                    AddBoat();
+                    ui.Print(" ");
+                    ui.Print("Boat is parked");
+                    ui.Print(" ");
+                    break;
+                default:
+                    ui.WrongInput("Wrong input, you must choose 1, 2, 3, 4 or 5");
+                    break;
+
+            }
+            }
+
+            //if (list[i] != null)
+            //{
+            //    ui.Print(" ");
+            //    ui.Print($"Your {list[i].GetType().Name} is parked");
+            //    ui.Print(" ");
+            //}
+        }
 
         public int CountVehicles()
         {
-            count = 0;
-            var vehicleList = garageHandler.filterGarage.vehicles;
+            Count = 0;
+            var vehicleList = garageHandler.filterGarage.Vehicles;
             for (int i = 0; i < vehicleList.Length; i++)
             {
                 if (vehicleList[i] != null)
                 {
-                    count++;
+                    Count++;
                 }
             }
-            return count;
+            return Count;
         }
 
         public void CountParkedVehicles(int vehicleItem, string vehicleType)
@@ -379,7 +286,7 @@ namespace Garage1._0
             }
         }
 
-        private void ListParkedVehicles()
+        public void ListParkedVehicles()
         {
 
             int airplaneCount = 0;
@@ -389,7 +296,7 @@ namespace Garage1._0
             int boatCount = 0;
 
             //int planes = 0;
-            var list = garageHandler.filterGarage.vehicles;
+            var list = garageHandler.filterGarage.Vehicles;
             var vehicles = new Garage<Vehicle>(Capacity);
 
 
@@ -400,8 +307,7 @@ namespace Garage1._0
                 if (item == null)
                 {
 
-                    var countLeft = list.Length - Capacity;
-                    ui.Print($"You can add  vehicles");
+                    ui.Print($"Empty parking spot");
                 }
                 else
                 {
@@ -412,7 +318,6 @@ namespace Garage1._0
 
                         var plane = item as Airplane;
                         airplaneCount++;
-                        //TODO nrof engines not printed, WHY!
                         ui.Print($"{basicString} {plane.NrOfEngines} engines");
 
                     }
@@ -450,16 +355,162 @@ namespace Garage1._0
             CountParkedVehicles(motorCycleCount, "Motorcycle");
             CountParkedVehicles(busCount, "Bus");
             int AllVehicles = airplaneCount + carCount + motorCycleCount + busCount + boatCount;
-            ui.Print($" There are in total {AllVehicles} vehicles in the garage");
+            ui.Print($"There are in total {AllVehicles} vehicles in the garage");
+            var emptySpots = Capacity - 3;
+            ui.Print($"There are in total {emptySpots} empty parkings in the garage");
+            
+           
+         
 
 
+        }
 
+        public bool Add(IEnumerable<Vehicle> vehicleItem)
+        {
 
+            var vehicles = garageHandler.filterGarage.Vehicles;
 
-            //garageHandler.ListAllVehicles(g => ui.Print(g + "this is a new veihicek"));
+            for (int i = 0; i < vehicles.Length; i++)
+            {
+                Count = 0;
+
+                if (vehicles[i] == null)
+
+                {
+                    vehicles[i] = (Vehicle)vehicleItem;
+                    ui.Print(" ");
+                    ui.Print($"Your {vehicleItem.GetType().Name} is parked");
+                    ui.Print(" ");
+                    Count++;
+
+                    return true;
+                }
+                else if (Capacity < Count)
+                {
+
+                    ui.Print("Sorry, the garage is full");
+
+                }
+            }
+
+            return false;
+        }
+
+        public void AddAirplane()
+        {
+
+            var vehicles = AddVehicle();
+            ui.Print("Antal motorer?");
+            int nrOfEngines = int.Parse(ui.GetInput());
+            var plane = new Airplane(vehicles.RegNumber, vehicles.Color, vehicles.NrOfWheels, nrOfEngines);
+            garageHandler.filterGarage.Add(plane);
+
         }
 
 
 
+        public void AddCar()
+        {
+
+            var vehicles = AddVehicle();
+
+            ui.Print("Bensintyp?");
+            string fuelType = ui.GetInput();
+            var car = new Car(vehicles.RegNumber, vehicles.Color, vehicles.NrOfWheels, fuelType);
+            garageHandler.filterGarage.Add(car);
+
+
+
+        }
+        public void AddBoat()
+        {
+            var vehicles = AddVehicle();
+
+            ui.Print("Length on boat?");
+            int length = int.Parse(ui.GetInput());
+            var boat = new Boat(vehicles.RegNumber, vehicles.Color, vehicles.NrOfWheels, length);
+            garageHandler.filterGarage.Add(boat);
+        }
+
+        public void AddBus()
+        {
+            var vehicles = AddVehicle();
+
+            ui.Print("Number of seats?");
+            int nrOfSeats = int.Parse(ui.GetInput());
+            var bus = new Bus(vehicles.RegNumber, vehicles.Color, vehicles.NrOfWheels, nrOfSeats);
+            garageHandler.filterGarage.Add(bus);
+        }
+
+        public void AddMotorcycle()
+        {
+
+            var vehicles = AddVehicle();
+
+            ui.Print("Cylinder Volume?");
+            double cylinderVolume = int.Parse(ui.GetInput());
+            var motorCycle = new MotorCycle(vehicles.RegNumber, vehicles.Color, vehicles.NrOfWheels, cylinderVolume);
+            garageHandler.filterGarage.Add(motorCycle);
+        }
+
+        public Vehicle AddVehicle()
+        {
+            ui.Print("RegNummer");
+            string regNumber = ui.GetInput();
+            RegistrationNumber(regNumber);
+            ui.Print("Color");
+            string color = ui.GetInput();
+            ui.Print("Antal hjul");
+            int nrOfWheels = int.Parse(ui.GetInput());
+            return new Vehicle(regNumber, color, nrOfWheels);
+        }
+
+        //TODO fixa så att man inte loopar igenom addvehicle två gånger
+        public bool RegistrationNumber(string regNumber)
+        {
+
+            
+            var vehicleList = garageHandler.filterGarage.Vehicles;
+            
+            for (int i = 0; i < vehicleList.Length; i++)
+            {
+
+                if (vehicleList[i] != null)
+                {
+                    //if (regNumber.Length < 6 || vehicleList[i].RegNumber == regNumber)
+                    //{
+
+                    //}
+                    if(regNumber.Length < 6 || vehicleList[i].RegNumber.ToLower() == regNumber.ToLower())
+                    {
+
+                        ui.Print("RegNumber must be unique and include 6 charachters");
+                        ui.Start(Capacity);
+                        return false;
+                    }
+                    //else
+                    //{
+
+                    //    vehicleList[i].RegNumber = regNumber;
+                    //}
+                    
+
+                }
+
+
+            }
+            return true;
+
+            //if (regNumber.Length < 6)
+            //{
+            //    ui.Print("RegNumber must be unique and include 6 charachters");
+
+            //}
+            //else
+            //{
+            //    vehicle.RegNumber = regNumber;
+            //}
+            //garageHandler.ListAllVehicles(g => ui.Print(g + "this is a new veihicek"));
+        }
     }
-}
+    }

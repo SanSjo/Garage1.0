@@ -10,19 +10,7 @@ namespace Garage1._0
         //private  string regNumber;
         public string RegNumber
         { get; set;
-            //get
-            //{
-               
-            //    return regNumber;
-                
-            //}
-            //set
-            //{
-            //    if (value.Length < 6 || value == null)
-            //    {
-            //        throw new ArgumentException("Registreringsnumret måste innehålla 3 bokstäver och 3 siffror");
-            //    }
-            //}
+           
         }
         public string Color { get; set; }
         public int NrOfWheels { get; set; }
@@ -34,9 +22,7 @@ namespace Garage1._0
             NrOfWheels = nrOfWheels; 
         }
 
-        public Vehicle()
-        {
-        }
+     
     }
 
     class Airplane : Vehicle
@@ -45,26 +31,17 @@ namespace Garage1._0
 
         public int NrOfEngines { get; set; }
 
-        public Airplane(int nrOfEngines, string regNumber, string color, int nrOfWheels) : base(regNumber, color, nrOfWheels)
+        //public Airplane(int nrOfEngines, string regNumber, string color, int nrOfWheels) : base(regNumber, color, nrOfWheels)
+        //{
+        //    NrOfEngines = nrOfEngines;
+
+        //}
+
+        public Airplane( string regNumber, string color, int nrOfWheels, int nrOfEngines) : base(regNumber, color, nrOfWheels)
         {
-            RegNumber = regNumber;
-            Color = color;
-            NrOfWheels = nrOfWheels;
             NrOfEngines = nrOfEngines;
         }
-
-        public Airplane(string regNumber, string color, int nrOfWheels, int nrOfEngines) : base(regNumber, color, nrOfWheels)
-        {
-        }
-        //public Airplane(string regNumber, int nrOfWheels)
-        //{
-
-        //}
-
-        //public Airplane(int regNumber, string color, int nrOfWheels, int engines)
-        //{
-
-        //}
+       
     }
 
     class MotorCycle : Vehicle
