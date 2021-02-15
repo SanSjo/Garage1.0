@@ -65,72 +65,27 @@ namespace Garage1._0
             }
         }
 
-        public bool RegistrationNumber(string regNumber)
-        {
+        
 
+        //int IHandler.CountVehicles()
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
-            var vehicleList = garage.Vehicles;
+        //bool IHandler.CheckForNull(Vehicle[] vehicleList)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
-            for (int i = 0; i < vehicleList.Length; i++)
-            {
+        //void IHandler.CountParkedVehicles(int vehicleItem, string vehicleType)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
-                if (vehicleList[i] != null)
-                {
-                    //if (regNumber.Length < 6 || vehicleList[i].RegNumber == regNumber)
-                    //{
-
-                    //}
-                    if (regNumber.Length < 6 || regNumber.Length > 6 || vehicleList[i].RegNumber.ToLower() == regNumber.ToLower())
-                    {
-
-                        ui.Print("RegNumber must be unique and include 6 charachters");
-                        //createGarage.Start(capacity);
-                        return false;
-                    }
-                    //else
-                    //{
-
-                    //    vehicleList[i].RegNumber = regNumber;
-                    //}
-
-
-                }
-
-
-            }
-            return true;
-
-            //if (regNumber.Length < 6)
-            //{
-            //    ui.Print("RegNumber must be unique and include 6 charachters");
-
-            //}
-            //else
-            //{
-            //    vehicle.RegNumber = regNumber;
-            //}
-            //garageHandler.ListAllVehicles(g => ui.Print(g + "this is a new veihicek"));
-        }
-
-        int IHandler.CountVehicles()
-        {
-            throw new System.NotImplementedException();
-        }
-
-        bool IHandler.CheckForNull(Vehicle[] vehicleList)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        void IHandler.CountParkedVehicles(int vehicleItem, string vehicleType)
-        {
-            throw new System.NotImplementedException();
-        }
-
-        bool IHandler.RegistrationNumber(string regNumber)
-        {
-            throw new System.NotImplementedException();
-        }
+        //bool IHandler.RegistrationNumber(string regNumber)
+        //{
+        //    throw new System.NotImplementedException();
+        //}
 
         //public Garage<Vehicle> ListAllVehicles()
         //{

@@ -8,7 +8,7 @@ namespace Garage1._0
         int CountVehicles();
         bool CheckForNull(Vehicle[] vehicleList);
         void CountParkedVehicles(int vehicleItem, string vehicleType);
-        bool RegistrationNumber(string regNumber);
+        //bool RegistrationNumber(string regNumber);
 
         //void AddAirplane();
         //void AddBoat();
