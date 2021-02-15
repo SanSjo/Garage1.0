@@ -36,32 +36,21 @@ namespace Garage1._0
 
         public Garage(int capacity)
         {
-          //  garageHandler = new GarageHandler(capacity);
-            //capacity = capacity;
+  
             Vehicles = new T[capacity];
-            //Count = CountVehicles();
+            //count = CountVehicles();
             VehicleLength = vehicles.Length;
         }
 
         public bool Add(T vehicleItem)
         {
 
-            //var vehicles = filterGarage.vehicles;
-
             for (int i = 0; i < vehicles.Length; i++)
             {
-              //  Count = 0;
-
                 if (vehicles[i] == null)
                 {
                     vehicles[i] = vehicleItem;
                     count++;
-                   // if (vehicles[i] != null)
-                    //{
-                    //    ui.Print(" ");
-                    //    ui.Print($"Your {vehicles[i].GetType().Name} is parked");
-                    //    ui.Print(" ");
-                    //}
 
                     return true;
                 }

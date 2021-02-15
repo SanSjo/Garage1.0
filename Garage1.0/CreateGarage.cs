@@ -6,8 +6,6 @@ namespace Garage1._0
     {
         private GarageManager garageManager;
 
-        //private IHandler garageHandler;
-
         public void CreateNewGarage()
         {
             var listGarage = "There are 3 vehicles in the garage, how many parking spots do you want?";

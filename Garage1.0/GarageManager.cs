@@ -21,14 +21,8 @@ namespace Garage1._0
 
         public GarageManager()
         {
-            // createGarage = new CreateGarage();
-            ui = new ConsoleUI();
-            //garageHandler = new GarageHandler(capacity);
-            //garageHandler = new GarageHandler(capacity);
-            //Capacity = capacity;
-            //Count = garageHandler.CountVehicles();
-            //SeedData();
 
+            ui = new ConsoleUI();
         }
 
 
@@ -130,14 +124,6 @@ namespace Garage1._0
         public void SeedData()
         {
 
-            //filterGarage.Add(new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2));
-            //filterGarage.Add(new Car("Bensin", "def123", "white", nrOfWheels: 4));
-            //filterGarage.Add(new Bus(nrOfSeats: 5, "ghd123", "white", nrOfWheels: 4));
-            //garageHandler.garage.Vehicles[0] = new Car("def123", "white", nrOfWheels: 4, "Bensin");
-            //garageHandler.garage.Vehicles[1] = new Bus("ghd123", "white", nrOfWheels: 4, nrOfSeats: 5);
-            //garageHandler.garage.Vehicles[2] = new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2);
-            //Count = filterGarage.CountVehicles();
-
             garageHandler.garage.Add(new Car("def123", "white", nrOfWheels: 4, "Bensin"));
             garageHandler.garage.Add(new Bus("ghd123", "white", nrOfWheels: 4, nrOfSeats: 5));
             garageHandler.garage.Add(new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2));
@@ -206,11 +192,8 @@ namespace Garage1._0
                     default:
                         ui.WrongInput("Wrong input, you must choose 1, 2, 3, 4 or 5");
                         break;
-
                 }
             }
-
-
         }
 
         public void SearchForVehicle()
@@ -289,11 +272,6 @@ namespace Garage1._0
 
                 }
             }
-
-
-
-            //var filterByColorandWheels = vehiclesList.Where(v => v.Color == inputColor || v.NrOfWheels == inputWheels || v.GetType().Name == inputType);
-
         }
 
 
@@ -431,8 +409,8 @@ namespace Garage1._0
             garageHandler.CountParkedVehicles(busCount, "Bus");
             int AllVehicles = airplaneCount + carCount + motorCycleCount + busCount + boatCount;
             ui.Print($"There are in total {AllVehicles} vehicles in the garage");
-            //int parkingsLeft = Capacity - garageHandler.garage.CountVehicles();
-            //ui.Print($"There are in total {parkingsLeft} empty parkings in the garage");
+            int parkingsLeft = garageHandler.garage.Capacity - garageHandler.garage.Count;
+            ui.Print($"There are in total {parkingsLeft} empty parkings in the garage");
 
         }
 
