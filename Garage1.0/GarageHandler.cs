@@ -22,6 +22,7 @@ namespace Garage1._0
         {
             garage = new Garage<Vehicle>(capacity);
             ui = new ConsoleUI();
+            //ToDo
             this.capacity = capacity;
             garageCapacity = capacity;
             VehicleLength = garage.Vehicles.Length;
@@ -83,7 +84,7 @@ namespace Garage1._0
                     {
 
                         ui.Print("RegNumber must be unique and include 6 charachters");
-                        createGarage.Start(capacity);
+                        //createGarage.Start(capacity);
                         return false;
                     }
                     //else
