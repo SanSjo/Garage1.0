@@ -6,7 +6,8 @@ namespace Garage1._0
 {
     public class Garage<T> : IEnumerable<T> where T : Vehicle
     {
-        private readonly IUI ui = new ConsoleUI();
+        //private IUI ui = new ConsoleUI();
+        private IHandler garageHandler;
         public int Capacity { get; set; }
 
         private T[] vehicles;
@@ -16,6 +17,8 @@ namespace Garage1._0
             get { return vehicles; }
             set { vehicles = value; }
         }
+
+        public int VehicleLength;
 
         public int count = 0;
 
@@ -32,9 +35,11 @@ namespace Garage1._0
 
         public Garage(int capacity)
         {
-            Capacity = Math.Max(0, capacity);
+            garageHandler = new GarageHandler(capacity);
+            Capacity = capacity;
             Vehicles = new T[capacity];
             Count = CountVehicles();
+            VehicleLength = vehicles.Length;
         }
 
         public bool Add(T vehicleItem)
@@ -60,32 +65,27 @@ namespace Garage1._0
 
                     return true;
                 }
-                else if (IsFull)
-                {
-
-                    ui.Print("Sorry, the garage is full");
-
-                }
+               
             }
 
             return false;
         }
 
 
-        //public T[] RemoveVehicle(int index)
-        //{
-        //    T[] newArray = new T[vehicles.Length - 1];
-        //    if (index > 0)
-        //    {
-        //        Array.Copy(vehicles, 0, newArray, 0, index);
-        //    }
-        //    if (index < vehicles.Length - 1)
-        //    {
-        //        Array.Copy(vehicles, index + 1, newArray, index, vehicles.Length - index - 1);
-        //    }
+        public T[] RemoveItem(int index)
+        {
+            T[] newArray = new T[vehicles.Length - 1];
+            if (index > 0)
+            {
+                Array.Copy(vehicles, 0, newArray, 0, index);
+            }
+            if (index < vehicles.Length - 1)
+            {
+                Array.Copy(vehicles, index + 1, newArray, index, vehicles.Length - index - 1);
+            }
 
-        //    return newArray;
-        //}
+            return newArray;
+        }
         public int CountVehicles()
         {
             Count = 0;
@@ -97,7 +97,7 @@ namespace Garage1._0
                     Count++;
                 }
             }
-            return count;
+            return Count;
         }
 
 
@@ -110,7 +110,8 @@ namespace Garage1._0
 
                 if (item != null)
                 {
-                    ui.PrintVehicle(item);
+                    // ui.PrintVehicle(item);
+                    Console.WriteLine(item);
                     yield return item;
                 }
             }

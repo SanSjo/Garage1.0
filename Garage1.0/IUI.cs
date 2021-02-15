@@ -2,10 +2,10 @@
 
 namespace Garage1._0
 {
-    interface IUI
+    public interface IUI
     {
-        void CreateNewGarage();
-        int Start(int capacity);
+        //void CreateNewGarage();
+        //int Start(int capacity);
         string WrongInput(string message);
         void ExitGarage();
         string GetInput();
