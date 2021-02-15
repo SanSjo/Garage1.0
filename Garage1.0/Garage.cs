@@ -1,44 +1,45 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Garage1._0
 {
     public class Garage<T> : IEnumerable<T> where T : Vehicle
     {
         //private IUI ui = new ConsoleUI();
-        private IHandler garageHandler;
-        public int Capacity { get; set; }
+        //ToDo
+        //  private IHandler garageHandler;
+        public int Capacity => vehicles.Length;
 
         private T[] vehicles;
 
+        //ToDo
+        // vehicles[i] = null;
         public T[] Vehicles
         {
             get { return vehicles; }
+            //ToDo
             set { vehicles = value; }
         }
 
         public int VehicleLength;
 
-        public int count = 0;
+        private int count = 0;
 
-        public int Count { get; set; }
+        public int Count => count;
 
-        public bool IsFull
-        {
-            get
-            {
-                return Capacity < Count;
-            }
-
+        public bool IsFull()
+        {        
+            return Capacity == Count;
         }
 
         public Garage(int capacity)
         {
-            garageHandler = new GarageHandler(capacity);
-            Capacity = capacity;
+          //  garageHandler = new GarageHandler(capacity);
+            //capacity = capacity;
             Vehicles = new T[capacity];
-            Count = CountVehicles();
+            //Count = CountVehicles();
             VehicleLength = vehicles.Length;
         }
 
@@ -49,19 +50,18 @@ namespace Garage1._0
 
             for (int i = 0; i < vehicles.Length; i++)
             {
-                Count = 0;
+              //  Count = 0;
 
                 if (vehicles[i] == null)
-
                 {
                     vehicles[i] = vehicleItem;
-                    if (vehicles[i] != null)
+                    count++;
+                   // if (vehicles[i] != null)
                     //{
                     //    ui.Print(" ");
                     //    ui.Print($"Your {vehicles[i].GetType().Name} is parked");
                     //    ui.Print(" ");
                     //}
-                    Count++;
 
                     return true;
                 }
@@ -71,24 +71,30 @@ namespace Garage1._0
             return false;
         }
 
-
-        public T[] RemoveItem(int index)
+        public void Remove(int index)
         {
-            T[] newArray = new T[vehicles.Length - 1];
-            if (index > 0)
-            {
-                Array.Copy(vehicles, 0, newArray, 0, index);
-            }
-            if (index < vehicles.Length - 1)
-            {
-                Array.Copy(vehicles, index + 1, newArray, index, vehicles.Length - index - 1);
-            }
-
-            return newArray;
+            vehicles[index] = null;
+            count--;
         }
+
+
+        //public T[] RemoveItem(int index)
+        //{
+        //    T[] newArray = new T[vehicles.Length - 1];
+        //    if (index > 0)
+        //    {
+        //        Array.Copy(vehicles, 0, newArray, 0, index);
+        //    }
+        //    if (index < vehicles.Length - 1)
+        //    {
+        //        Array.Copy(vehicles, index + 1, newArray, index, vehicles.Length - index - 1);
+        //    }
+
+        //    return newArray;
+        //}
         public int CountVehicles()
         {
-            Count = 0;
+            var Count = 0;
             var vehicleList = vehicles;
             for (int i = 0; i < vehicleList.Length; i++)
             {
@@ -111,7 +117,8 @@ namespace Garage1._0
                 if (item != null)
                 {
                     // ui.PrintVehicle(item);
-                    Console.WriteLine(item);
+                    //ToDo
+                    // Console.WriteLine(item);
                     yield return item;
                 }
             }

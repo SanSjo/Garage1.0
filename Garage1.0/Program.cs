@@ -34,9 +34,12 @@ namespace Garage1._0
             //GarageManager newGarage = new GarageManager(capacity)
             //newGarage.Start();
 
-            CreateGarage createGarage = new CreateGarage();
+            //CreateGarage createGarage = new CreateGarage();
             //IUI ui = new ConsoleUI();
-            createGarage.CreateNewGarage();
+            //createGarage.CreateNewGarage();
+
+            GarageManager garageManager = new GarageManager();
+            garageManager.Start();
 
 
 

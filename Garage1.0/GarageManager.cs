@@ -9,48 +9,144 @@ namespace Garage1._0
     public class GarageManager
     {
         private IUI ui;
-        private readonly IHandler garageHandler;
+        private IHandler garageHandler;
 
         public int Count = 0;
 
         // public GarageHandler garageHandler;
-        CreateGarage createGarage;
+        //CreateGarage createGarage;
 
         public int Capacity { get; set; }
 
-        public GarageManager(int capacity)
+
+        public GarageManager()
         {
-            createGarage = new CreateGarage();
+            // createGarage = new CreateGarage();
             ui = new ConsoleUI();
-            garageHandler = new GarageHandler(capacity);
             //garageHandler = new GarageHandler(capacity);
-            Capacity = capacity;
-            Count = garageHandler.CountVehicles();
-            SeedData(garageHandler.garage, capacity);
-            
+            //garageHandler = new GarageHandler(capacity);
+            //Capacity = capacity;
+            //Count = garageHandler.CountVehicles();
+            //SeedData();
+
         }
 
-        public void SeedData(Garage<Vehicle> filterGarage, int capacity)
+
+        public void Start()
+        {
+            CreateGarage();
+            SeedData();
+            RunMainMeny();
+        }
+
+        private void RunMainMeny()
+        {
+            {
+                //ToDo
+                //garageHandler = new GarageHandler(capacity);
+                // GarageManager garage = new GarageManager(capacity);
+
+
+                do
+                {
+                    string menuMessage = "Välj vad du vill göra i garaget genom att välja menyval 1, 2, 3, 4 eller 0 för att avsluta"
+                        + "\n1. Lägg till ett fordon"
+                        + "\n2. Ta bort ett fordon"
+                        + "\n3. Hitta ett fordon med registreringsnummer"
+                        + "\n4. Sök efter fordon"
+                        + "\n5. Skriv ut alla fordon i garaget"
+                        + "\n0. Avsluta programmet";
+
+                    Console.WriteLine(menuMessage);
+                    string nav = Console.ReadLine();
+
+                    switch (nav)
+                    {
+                        case "1":
+                            if (garageHandler.garage.IsFull())
+                            {
+                                Console.WriteLine("Garage is now full");
+                            }
+                            else
+                            {
+                                AddVehicleByOption();
+
+                            }
+                            //AddAirplane();
+                            break;
+                        case "2":
+                            RemoveItem();
+                            break;
+                        case "3":
+                            SearchByRegNumber();
+                            break;
+                        case "4":
+                            SearchForVehicle();
+                            break;
+                        case "5":
+                            ListParkedVehicles();
+                            //garageHandler.filterGarage.GetEnumerator();
+                            break;
+                        case "0":
+                            ExitGarage();
+                            break;
+                        default:
+                            Console.WriteLine("Wrong inout! You must enter 1, 2, 3, 4, 5 or 0");
+
+                            break;
+                    }
+
+                } while (true);
+
+            }
+        }
+
+        private void CreateGarage()
+        {
+            int size;
+            bool ok = true;
+            do
+            {
+                //Ask for size
+                Console.WriteLine("There are 3 vehicles in the garage, how many parking spots do you want?");
+                size = Int32.Parse(Console.ReadLine());
+                if (size < 3)
+                {
+                    Console.WriteLine("Need more than three!");
+                }
+                else
+                {
+                    ok = false;
+                }
+
+            } while (ok);
+
+            garageHandler = new GarageHandler(size);
+
+        }
+
+        
+
+        public void SeedData()
         {
 
-            if (capacity <= 3)
-            {
-                ui.Print("The garage is full, add more parkings "); 
-                createGarage.CreateNewGarage();
-            }
-
-            else
-            {
                 //filterGarage.Add(new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2));
                 //filterGarage.Add(new Car("Bensin", "def123", "white", nrOfWheels: 4));
                 //filterGarage.Add(new Bus(nrOfSeats: 5, "ghd123", "white", nrOfWheels: 4));
-                filterGarage.Vehicles[0] = new Car("def123", "white", nrOfWheels: 4, "Bensin");
-                filterGarage.Vehicles[1] = new Bus("ghd123", "white", nrOfWheels: 4, nrOfSeats: 5);
-                filterGarage.Vehicles[2] = new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2);
-                //Count = filterGarage.CountVehicles();
+                //garageHandler.garage.Vehicles[0] = new Car("def123", "white", nrOfWheels: 4, "Bensin");
+                //garageHandler.garage.Vehicles[1] = new Bus("ghd123", "white", nrOfWheels: 4, nrOfSeats: 5);
+                //garageHandler.garage.Vehicles[2] = new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2);
+            //Count = filterGarage.CountVehicles();
 
-            }
+            garageHandler.garage.Add(new Car("def123", "white", nrOfWheels: 4, "Bensin"));
+            garageHandler.garage.Add(new Bus("ghd123", "white", nrOfWheels: 4, nrOfSeats: 5));
+            garageHandler.garage.Add(new Airplane("ABC123", "White", nrOfWheels: 2, nrOfEngines: 2));
+        }
 
+
+        private void ExitGarage()
+        {
+            throw new NotImplementedException();
         }
 
         public void AddVehicleByOption()
@@ -65,7 +161,7 @@ namespace Garage1._0
                 + "\n5. Boat");
 
             string option = ui.GetInput();
-            if (Capacity == garageHandler.CountVehicles())
+            if (garageHandler.garage.IsFull())
             {
                 ui.Print("Garage is now full");
             }
@@ -235,30 +331,30 @@ namespace Garage1._0
 
             int indexInt = int.Parse(ui.GetInput());
 
-            if (Capacity < 3)
-            {
-                ui.Print("Ni item flund");
-            }
-            else
-            {
-                var deletedItemType = deleteVehicle[indexInt].GetType().Name;
-                var deletedItemColor = deleteVehicle[indexInt].Color;
-                deleteVehicle = deleteVehicle.Where((source, index) => index != indexInt).ToArray();
+            
+                ui.Print($"You deleted a {deleteVehicle[indexInt].Color} {deleteVehicle[indexInt].GetType().Name}");
+                garageHandler.garage.Remove(indexInt);
 
-                ui.Print($"You deleted a {deletedItemColor} {deletedItemType}");
-                for (int i = 0; i < deleteVehicle.Length; i++)
+                foreach (var item in garageHandler.garage)
                 {
-                    ui.Print($"Left in Garage is {deleteVehicle[i]?.GetType().Name: 'empty spot'}");
+                    ui.Print($"Left in Garage is {item.GetType().Name}.");
                 }
-            }
+                
+
+                //var deletedItemType = deleteVehicle[indexInt].GetType().Name;
+                //var deletedItemColor = deleteVehicle[indexInt].Color;
+                //deleteVehicle = deleteVehicle.Where((source, index) => index != indexInt).ToArray();
+
+                //ui.Print($"You deleted a {deletedItemColor} {deletedItemType}");
+                
+                //for (int i = 0; i < deleteVehicle.Length; i++)
+                //{
+                //    ui.Print($"Left in Garage is {deleteVehicle[i]?.GetType().Name: 'empty spot'}");
+                //}
+            
 
         }
 
-
-
-       
-
-        
 
         public void ListParkedVehicles()
         {
