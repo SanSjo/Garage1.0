@@ -66,21 +66,6 @@ namespace Garage1._0
             count--;
         }
 
-
-        //public T[] RemoveItem(int index)
-        //{
-        //    T[] newArray = new T[vehicles.Length - 1];
-        //    if (index > 0)
-        //    {
-        //        Array.Copy(vehicles, 0, newArray, 0, index);
-        //    }
-        //    if (index < vehicles.Length - 1)
-        //    {
-        //        Array.Copy(vehicles, index + 1, newArray, index, vehicles.Length - index - 1);
-        //    }
-
-        //    return newArray;
-        //}
         public int CountVehicles()
         {
             var Count = 0;

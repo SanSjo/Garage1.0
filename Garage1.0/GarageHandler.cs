@@ -65,55 +65,5 @@ namespace Garage1._0
             }
         }
 
-        
-
-        //int IHandler.CountVehicles()
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        //bool IHandler.CheckForNull(Vehicle[] vehicleList)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        //void IHandler.CountParkedVehicles(int vehicleItem, string vehicleType)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        //bool IHandler.RegistrationNumber(string regNumber)
-        //{
-        //    throw new System.NotImplementedException();
-        //}
-
-        //public Garage<Vehicle> ListAllVehicles()
-        //{
-        //    return garage;
-        //}
-
-
-
-
-
-
-
-
-
-
-        //if (regNumber.Length == 6 && regNumber != )
-        //{
-        //    vehicle.RegNumber = regNumber;
-        //}
-
-
-
-
-
-        //public void AddVehicle<T>(T item) 
-        //{
-        //    garage.Add(item as Vehicle);
-        //}
-
     }
 }

@@ -13,9 +13,6 @@ namespace Garage1._0
 
         public int Count = 0;
 
-        // public GarageHandler garageHandler;
-        //CreateGarage createGarage;
-
         public int Capacity { get; set; }
 
 
@@ -36,11 +33,7 @@ namespace Garage1._0
         private void RunMainMeny()
         {
             {
-                //ToDo
-                //garageHandler = new GarageHandler(capacity);
-                // GarageManager garage = new GarageManager(capacity);
-
-
+               
                 do
                 {
                     string menuMessage = "Välj vad du vill göra i garaget genom att välja menyval 1, 2, 3, 4 eller 0 för att avsluta"
@@ -66,7 +59,7 @@ namespace Garage1._0
                                 AddVehicleByOption();
 
                             }
-                            //AddAirplane();
+                     
                             break;
                         case "2":
                             RemoveItem();
@@ -79,7 +72,6 @@ namespace Garage1._0
                             break;
                         case "5":
                             ListParkedVehicles();
-                            //garageHandler.filterGarage.GetEnumerator();
                             break;
                         case "0":
                             ExitGarage();
@@ -268,8 +260,6 @@ namespace Garage1._0
                 {
 
                     ui.Print($"We found {item.GetType().Name} with color {item.Color} and {item.NrOfWheels} wheels");
-
-
                 }
             }
         }
@@ -347,13 +337,8 @@ namespace Garage1._0
             int motorCycleCount = 0;
             int busCount = 0;
             int boatCount = 0;
-
-            //int planes = 0;
             var list = garageHandler.garage.Vehicles;
             var vehicles = new Garage<Vehicle>(Capacity);
-
-
-            // ui.PrintVehicle(list.Length);
 
             foreach (Vehicle item in list)
             {

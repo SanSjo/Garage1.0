@@ -5,9 +5,7 @@ namespace Garage1._0
     public class Vehicle : IVehicle
     {
 
-        //internal int nrOfWheels;
 
-        //private  string regNumber;
         public string RegNumber
         {
             get; set;
