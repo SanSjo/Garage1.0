@@ -2,7 +2,7 @@
 
 namespace Garage1._0
 {
-    public interface IUI
+    public interface IUI 
     {
         //void CreateNewGarage();
         //int Start(int capacity);
@@ -11,5 +11,6 @@ namespace Garage1._0
         string GetInput();
         void Print(string message);
         void PrintVehicle(Vehicle item);
+        //void PrintVehicle<T>(T item) where T : IVehicle;
     }
 }

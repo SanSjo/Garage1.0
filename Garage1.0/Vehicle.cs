@@ -2,15 +2,16 @@
 
 namespace Garage1._0
 {
-    public class Vehicle
+    public class Vehicle : IVehicle
     {
-       
+
         //internal int nrOfWheels;
 
         //private  string regNumber;
         public string RegNumber
-        { get; set;
-           
+        {
+            get; set;
+
         }
         public string Color { get; set; }
         public int NrOfWheels { get; set; }
@@ -19,10 +20,10 @@ namespace Garage1._0
         {
             RegNumber = regNumber;
             Color = color;
-            NrOfWheels = nrOfWheels; 
+            NrOfWheels = nrOfWheels;
         }
 
-     
+
     }
 
     public class Airplane : Vehicle
