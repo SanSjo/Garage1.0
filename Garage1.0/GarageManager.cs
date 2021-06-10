@@ -42,6 +42,7 @@ namespace Garage1._0
                         + "\n3. Hitta ett fordon med registreringsnummer"
                         + "\n4. Sök efter fordon"
                         + "\n5. Skriv ut alla fordon i garaget"
+                        + "\n6. Skriv ut beläggningsgrad"
                         + "\n0. Avsluta programmet";
 
                     Console.WriteLine(menuMessage);
@@ -73,6 +74,9 @@ namespace Garage1._0
                         case "5":
                             ListParkedVehicles();
                             break;
+                        case "6":
+                            ListNumberOfVehicles();
+                            break;
                         case "0":
                             ExitGarage();
                             break;
@@ -86,6 +90,8 @@ namespace Garage1._0
 
             }
         }
+
+        
 
         private void CreateGarage()
         {
@@ -328,15 +334,20 @@ namespace Garage1._0
             }
         }
 
-
+        int airplaneCount;
+        int carCount;
+        int motorCycleCount;
+        int busCount;
+        int boatCount; 
         public void ListParkedVehicles()
         {
+            airplaneCount = 0;
+            carCount = 0;
+            motorCycleCount = 0;
+            busCount = 0;
+            boatCount = 0;
 
-            int airplaneCount = 0;
-            int carCount = 0;
-            int motorCycleCount = 0;
-            int busCount = 0;
-            int boatCount = 0;
+
             var list = garageHandler.garage.Vehicles;
             var vehicles = new Garage<Vehicle>(Capacity);
 
@@ -387,6 +398,22 @@ namespace Garage1._0
                 }
 
             }
+            
+
+        }
+
+        //public void CountParkedVehicles(int vehicleItem, string vehicleType)
+        //{
+
+        //    if (vehicleItem > 0)
+        //    {
+        //        ui.Print($"{vehicleItem} {vehicleType} in the garage");
+        //    }
+        //}
+
+        //TODO
+        private void ListNumberOfVehicles()
+        {
             garageHandler.CountParkedVehicles(airplaneCount, "Airplane");
             garageHandler.CountParkedVehicles(carCount, "Car");
             garageHandler.CountParkedVehicles(boatCount, "Boat");
@@ -396,7 +423,6 @@ namespace Garage1._0
             ui.Print($"There are in total {AllVehicles} vehicles in the garage");
             int parkingsLeft = garageHandler.garage.Capacity - garageHandler.garage.Count;
             ui.Print($"There are in total {parkingsLeft} empty parkings in the garage");
-
         }
 
         public bool Add(IEnumerable<Vehicle> vehicleItem)
@@ -486,6 +512,7 @@ namespace Garage1._0
             RegistrationNumber(regNumber);
             ui.Print("Color");
             string color = ui.GetInput();
+            //TODO varningtext pm att man bara kan skriva siffror
             ui.Print("Antal hjul");
             int nrOfWheels = int.Parse(ui.GetInput());
             return new Vehicle(regNumber, color, nrOfWheels);
